@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="7dbe6c63-d163-4339-b07c-c4e7c8d7cdca" activeEnvironment="Default" name="REST Project 1" soapui-version="5.5.0" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" id="3cc04275-707c-42de-a432-2c079ed8e394" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://77.55.217.143" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://77.55.217.143</con:endpoint></con:endpoints><con:resource name="All" path="/contacts-api/contacts/all" id="a3baf281-90b2-45e4-8bfe-aa07ee2fcefe"><con:settings/><con:parameters/><con:method name="get contact" id="7d8e6163-ea5e-404d-81a2-584702a51488" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:request name="Request 1" id="98066594-b948-42fe-83f0-42918efbe620" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://77.55.217.143</con:endpoint><con:request/><con:originalUri>http://77.55.217.143/contacts-api/contacts/all</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="create" path="/contacts-api/contacts/create" id="feaf9b0b-958a-47e6-a45b-3c90c769cd9c"><con:settings/><con:parameters/><con:method name="create contact" id="7a11422c-8ac2-4d52-b89b-db74dad096ab" method="POST"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>text/html; charset=utf-8</con:mediaType><con:status>200</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>404 400 403</con:status><con:params/><con:element xmlns:cre="http://77.55.217.143/contacs-api/contacs/create">cre:Fault</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>201</con:status><con:params/><con:element xmlns:cre="http://77.55.217.143/contacs-api/contacs/create">cre:Response</con:element></con:representation><con:request name="Request 1" id="4efc0fc1-7e55-4c8c-a918-a6494ca8411b" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://77.55.217.143</con:endpoint><con:request>{
+  "name": "Andrzej",
+  "surname":"poprostu",
+  "phoneNumber":"+48554515100"
+}</con:request><con:originalUri>http://77.55.217.143/77.55.217.143/contacs-api/contacs/create</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:testSuite id="7027f9b5-a127-4bd1-8952-e6a40111c81f" name="contacts"><con:description>TestSuite generated for REST Service [http://77.55.217.143]</con:description><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="335ef3b9-6d0a-4234-a13b-d10c34acaa25" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GET Contact TestCase" searchProperties="true"><con:description>TestCase generated for REST Resource [All] located at [/contacts-api/contacts/all]</con:description><con:settings/><con:testStep type="restrequest" name="Request 1" id="b65807f9-bc29-441e-aeb4-45680a0bcf51"><con:settings/><con:config service="http://77.55.217.143" resourcePath="/contacts-api/contacts/all" methodName="get contact" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Request 1" id="98066594-b948-42fe-83f0-42918efbe620" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://77.55.217.143</con:endpoint><con:request/><con:originalUri>http://77.55.217.143/contacts-api/contacts/all</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="efd2aa4d-cd4b-45f2-83d0-bd251e45e062" name="status HTTP"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="a86c716f-265f-4ef8-ba58-dfebfecfb1ba" name="nie puste pole name"><con:configuration><scriptText>import groovy.json.JsonSlurper
+
+log.info(messageExchange.response.responseContent[0]);
+
+def ResponseMessage = messageExchange.response.responseContent
+
+// replace "(starting&amp;ending), [](starting&amp;ending) and \ with space from response
+def TrimResponse = ResponseMessage.replaceAll('^\"|\"$','').replaceAll('^\\[|\\]$','')replaceAll('\\\\','')
+
+//define a JsonSlurper
+def jsonSlurper = new JsonSlurper().parseText(TrimResponse)
+
+assert jsonSlurper.name != null
+
+assert jsonSlurper.name instanceof String</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="59f46a58-52e2-4743-b9cb-3b4efdb7578a"><con:configuration/></con:assertion><con:assertion type="GroovyScriptAssertion" id="28fd7e20-faa6-4f03-8dfc-3b298c0b34ee" name="nie puste pole surname"><con:configuration><scriptText>import groovy.json.JsonSlurper
+
+log.info(messageExchange.response.responseContent[0]);
+
+def ResponseMessage = messageExchange.response.responseContent
+
+// replace "(starting&amp;ending), [](starting&amp;ending) and \ with space from response
+def TrimResponse = ResponseMessage.replaceAll('^\"|\"$','').replaceAll('^\\[|\\]$','')replaceAll('\\\\','')
+
+//define a JsonSlurper
+def jsonSlurper = new JsonSlurper().parseText(TrimResponse)
+
+assert jsonSlurper.surname != null
+
+assert jsonSlurper.surname instanceof String</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="5144f14e-a2c7-4ca8-b69c-d944bb1676fd" name="nie puste pole telefon"><con:configuration><scriptText>import groovy.json.JsonSlurper
+
+log.info(messageExchange.response.responseContent[0]);
+
+def ResponseMessage = messageExchange.response.responseContent
+
+// replace "(starting&amp;ending), [](starting&amp;ending) and \ with space from response
+def TrimResponse = ResponseMessage.replaceAll('^\"|\"$','').replaceAll('^\\[|\\]$','')replaceAll('\\\\','')
+
+//define a JsonSlurper
+def jsonSlurper = new JsonSlurper().parseText(TrimResponse)
+
+assert jsonSlurper.phoneNumber != null
+
+assert jsonSlurper.phoneNumber instanceof Number</scriptText></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:restRequest></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="6d18bbd1-a6dc-4bf7-ac92-4b4317ff90bc" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Create contact TestCase" searchProperties="true"><con:settings/><con:testStep type="restrequest" name="create contact" id="aa6112f3-a32b-440c-9dbd-d01c4412945d"><con:settings/><con:config service="http://77.55.217.143" methodName="create contact" resourcePath="/contacts-api/contacts/create" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="create contact" id="2f7be494-25de-47df-9290-0ab80c8bdf26" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://77.55.217.143</con:endpoint><con:request>{
+  "name": "Andrzej",
+  "surname":"poprostu",
+  "phoneNumber":"+${#TestCase#phone}"
+}</con:request><con:originalUri>http://77.55.217.143/contacs-api/contacs/create</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="9b1af228-29d8-4dea-b8d4-0c877cadffb1" name="Valid HTTP Status Codes"><con:configuration><codes>201</codes></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="get contact" id="f7569bf0-b6b6-4cba-afe6-96987cb9185e"><con:settings/><con:config service="http://77.55.217.143" methodName="get contact" resourcePath="/contacts-api/contacts/all" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="get contact" id="45c0c6e3-dd0a-4156-9216-5afd26d4779f" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://77.55.217.143</con:endpoint><con:request/><con:originalUri>http://77.55.217.143/contacts-api/contacts/all</con:originalUri><con:assertion type="Simple Contains" id="20dfc534-3137-48f9-b421-f0f32e9ba150" name="Contains"><con:configuration><token>${#TestCase#phone}</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:restRequest></con:config></con:testStep><con:setupScript>log.info('wqe');
+import java.util.Random
+Random random = new Random()
+def min = 513311111
+def max = 599999999
+def randomValue = random.nextInt(max + 1 - min) + min;
+def props = testRunner.testCase
+log.info(props.hasProperty("phone"))
+log.info('tworze zmienna ')
+
+if(props.hasProperty("phone")){
+	
+   props.setPropertyValue("phone", "48" + String.valueOf(randomValue) )
+   log.info "ID was added: " + randomValue
+}</con:setupScript><con:properties><con:property><con:name>phone</con:name><con:value>48521728452</con:value></con:property></con:properties></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
